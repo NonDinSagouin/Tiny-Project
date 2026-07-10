@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Pathfinding
+  - Water
+  - UI
+  - Cliff
+  - Obstacle
+  - lvl 0
+  - lvl 1
+  - Entites
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Water
+    uniqueID: 664556809
+    locked: 0
+  - name: Water - Foam
+    uniqueID: 2433282725
+    locked: 0
+  - name: lvl 0 - Ground
+    uniqueID: 1463560141
+    locked: 0
+  - name: lvl 0 - Shadow
+    uniqueID: 529959967
+    locked: 0
+  - name: lvl 1 - Ground
+    uniqueID: 4055922295
+    locked: 0
+  - name: lvl 0 - Stair
+    uniqueID: 414970135
+    locked: 0
+  - name: lvl 1 - Shadow
+    uniqueID: 400275449
+    locked: 0
+  - name: lvl 1 - Stair
+    uniqueID: 1950425607
+    locked: 0
+  - name: lvl 0 - Props
+    uniqueID: 2360705825
+    locked: 0
+  - name: UI - Entities
+    uniqueID: 1716814895
+    locked: 0
+  - name: lvl 0 - Entities
+    uniqueID: 824724981
+    locked: 0
+  - name: lvl 0 - Build
+    uniqueID: 2252682509
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []
