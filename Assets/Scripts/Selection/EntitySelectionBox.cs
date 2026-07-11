@@ -33,7 +33,7 @@ namespace TinyProject.Selection
             {
                 endPosition = cam.WorldToScreenPoint(EntitySelectionSingleton.Instance.MouseWorldPosition);
                 DrawVisual();
-                SelectUnits();
+                SelectEntities();
             }
         }
     
@@ -56,7 +56,7 @@ namespace TinyProject.Selection
             boxVisual.sizeDelta = boxSize;
         }
     
-        private void SelectUnits()
+        private void SelectEntities()
         {
             Vector2 min = Vector2.Min(startPosition, endPosition);
             Vector2 max = Vector2.Max(startPosition, endPosition);
@@ -67,34 +67,38 @@ namespace TinyProject.Selection
                 return;
             }
 
+            List<Entity> selectedEntities = new();
             List<Entity> selectedUnits = new();
 
-            foreach (Entity unit in EntitySelectionSingleton.Instance.GetAllEntity())
+            foreach (Entity entity in EntitySelectionSingleton.Instance.GetAllEntity())
             {
-                if (unit == null)
+                if (entity == null)
                 {
                     continue;
                 }
 
-                Vector3 unitScreenPos = cam.WorldToScreenPoint(unit.transform.position);
-                if (unitScreenPos.z < 0f)
+                Vector3 entityScreenPos = cam.WorldToScreenPoint(entity.transform.position);
+                if (entityScreenPos.z < 0f)
                 {
                     continue;
                 }
 
-                if (selectionBox.Contains(new Vector2(unitScreenPos.x, unitScreenPos.y)))
+                if (selectionBox.Contains(new Vector2(entityScreenPos.x, entityScreenPos.y)))
                 {
-                    selectedUnits.Add(unit);
+                    selectedEntities.Add(entity);
+
+                    if (entity is Unit)
+                    {
+                        selectedUnits.Add(entity);
+                    }
                 }
             }
 
-            Debug.Log($"Selected Units Count: {selectedUnits.Count}");
-
-            EntitySelectionSingleton.Instance.SetSelectedEntity(selectedUnits);
+            EntitySelectionSingleton.Instance.SetSelectedEntity(selectedUnits.Count > 0 ? selectedUnits : selectedEntities);
         }
 
         /// <summary>
-        /// Commence la sélection des unités en définissant la position de départ du rectangle de sélection.
+        /// Commence la sélection des entités en définissant la position de départ du rectangle de sélection.
         /// </summary>
         /// <param name="mouseWorldPosition">La position de la souris dans le monde.</param>
         public void StartSelection(Vector3 mouseWorldPosition)
@@ -106,7 +110,7 @@ namespace TinyProject.Selection
         }
 
         /// <summary>
-        /// Termine la sélection des unités en définissant la position de fin du rectangle de sélection et en désactivant le visuel du rectangle de sélection.
+        /// Termine la sélection des entités en définissant la position de fin du rectangle de sélection et en désactivant le visuel du rectangle de sélection.
         /// </summary>
         /// <param name="mouseWorldPosition">La position de la souris dans le monde.</param>
         public void EndSelection(Vector3 mouseWorldPosition)

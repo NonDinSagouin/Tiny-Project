@@ -16,7 +16,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Move",
+                    "name": "Action",
                     "type": "Button",
                     "id": "b06614e4-5a60-4042-9165-b5e863bb9a34",
                     "expectedControlType": "",
@@ -84,7 +84,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

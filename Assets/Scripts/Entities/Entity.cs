@@ -10,8 +10,14 @@ namespace TinyProject.Entities
     {
         [BoxGroup("Components")] [SerializeField] protected Animator animator;
         [BoxGroup("Components")] [SerializeField] protected GameObject selectionVisual;
+        [BoxGroup("Components")] [SerializeField] protected Collider2D entityColliderSelection;
 
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isSelected;
+
+        /// <summary>
+        /// Obtient le collider utilisé pour la sélection de l'entité.
+        /// </summary>
+        public Collider2D EntityColliderSelection => entityColliderSelection;
 
         /// <summary>
         /// Indique si l'unité est actuellement sélectionnée.
@@ -42,5 +48,7 @@ namespace TinyProject.Entities
                 EntitySelectionSingleton.Instance.DeregisterEntity(this);
             }
         }
+    
+        protected virtual void Update() {}
     }
 }

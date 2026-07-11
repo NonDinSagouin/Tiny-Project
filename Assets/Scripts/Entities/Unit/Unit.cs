@@ -7,18 +7,18 @@ namespace TinyProject.Entities
     [RequireComponent(typeof(IAstarAI))]
     public class Unit : Entity
     {
-        [BoxGroup("Components")] private IAstarAI ai;
-        [BoxGroup("Etats")] [SerializeField, ReadOnly] private bool isFlipped = false;
+        [BoxGroup("Components")] protected IAstarAI ai;
+        [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
 
         protected override void Start()
         {
             base.Start();
-
             ai = GetComponent<IAstarAI>();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             UnitMovement.HandleMovement(animator, ai);
             UnitMovement.Flip(ai, transform, ref isFlipped);
         }
