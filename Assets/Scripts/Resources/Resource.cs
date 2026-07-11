@@ -1,7 +1,10 @@
 using UnityEngine;
 using NaughtyAttributes;
 
-namespace TinyProject.Resource
+using TinyProject.Entities;
+using TinyProject.Resources;
+
+namespace TinyProject.Resources
 {
     /// <summary>
     /// Représente les différents types de ressources disponibles dans le jeu.
@@ -16,8 +19,14 @@ namespace TinyProject.Resource
     public class Resource : MonoBehaviour
     {
         [BoxGroup("Resource Info")] [SerializeField] private ResourceType resourceType;
+        [BoxGroup("Resource Info")] [SerializeField] private WorkerRole workerRole;
         [BoxGroup("Resource Info")] [SerializeField] private int resourceAmount = 100;
         [BoxGroup("Resource Info")] [SerializeField] private int currentResourceAmount;
+
+        public ResourceType ResourceType => resourceType;
+        public WorkerRole WorkerRole => workerRole;
+        public int ResourceAmount => resourceAmount;
+        public int CurrentResourceAmount => currentResourceAmount;
 
         void Start()
         {
@@ -31,33 +40,6 @@ namespace TinyProject.Resource
         public void Take(int amount)
         {
             currentResourceAmount -= amount;
-        }
-
-        /// <summary>
-        /// Retourne le type de ressource de la ressource.
-        /// </summary>
-        /// <returns>Le type de ressource de la ressource.</returns>
-        public ResourceType GetResourceType()
-        {
-            return resourceType;
-        }
-
-        /// <summary>
-        /// Retourne la quantité totale de ressource de la ressource.
-        /// </summary>
-        /// <returns>La quantité totale de ressource de la ressource.</returns>
-        public int GetResourceAmount()
-        {
-            return resourceAmount;
-        }
-
-        /// <summary>
-        /// Retourne la quantité actuelle de ressource de la ressource.
-        /// </summary>
-        /// <returns>La quantité actuelle de ressource de la ressource.</returns>
-        public int GetCurrentResourceAmount()
-        {
-            return currentResourceAmount;
         }
 
         /// <summary>

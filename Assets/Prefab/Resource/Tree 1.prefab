@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3638457353616137526}
   - component: {fileID: 216496258220156921}
   m_Layer: 7
-  m_Name: Tree1_0 (1)
+  m_Name: Tree 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Resource.Resource
   resourceType: 0
+  workerRole: 2
   resourceAmount: 100
   currentResourceAmount: 100
 --- !u!114 &216496258220156921
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Entities.Tree
   animator: {fileID: 6131508773262839399}
   selectionVisual: {fileID: 8458278058574751351}
-  entityColliderSelection: {fileID: 0}
+  entityColliderSelection: {fileID: 5348142308208650791}
   isSelected: 0
 --- !u!1 &7899665701735626807
 GameObject:

@@ -7,6 +7,7 @@ using NaughtyAttributes;
 using static UnityEngine.InputSystem.InputAction;
 
 using TinyProject.Entities;
+using TinyProject.Resources;
 
 namespace TinyProject.Selection
 {
@@ -202,24 +203,43 @@ namespace TinyProject.Selection
         /// <param name="context">Le contexte de l'action d'entrée utilisateur.</param>
         public void HandleInputAction(CallbackContext context)
         {
-            if (!context.performed)
-            {
-                return;
-            }
-
-            if (entitiesSelected.Count == 0)
-            {
-                return;
-            }
+            if (!context.performed){ return; }
+            if (entitiesSelected.Count == 0){ return; }
 
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
             if (hit.collider != null && hit.collider.GetComponentInParent<Entity>() is Entity clickedEntity && !entitiesSelected.Contains(clickedEntity))
             {
+                if (clickedEntity.TryGetComponent(out Resource resource))
+                {
+                    Debug.Log($"[Selection] Clicked resource: {resource}", clickedEntity);
+                    Debug.Log($"[Selection] Resource Type: {resource.ResourceType}, Total Amount: {resource.ResourceAmount}, Current Amount: {resource.CurrentResourceAmount}", clickedEntity);
+                    WorkerRoleSelection(resource.WorkerRole);
+                }
+
                 Debug.Log($"[Selection] Clicked on another entity: {clickedEntity.name}", clickedEntity);
-                return;
             }
 
             Movement();
+        }
+
+        /// <summary>
+        /// [Event] Gère la sélection du rôle des travailleurs en fonction de l'entrée utilisateur.
+        /// Cela permet de changer le rôle des travailleurs sélectionnés et de mettre à jour leur animation
+        /// </summary>
+        /// <param name="workerRole">Le nouveau rôle à attribuer aux travailleurs sélectionnés.</param>
+        public void WorkerRoleSelection(WorkerRole workerRole)
+        {
+            List<Pawn> units = entitiesSelected.OfType<Pawn>().ToList();
+
+            if (units.Count == 0)
+            {
+                return;
+            }
+
+            foreach (Pawn pawn in units)
+            {
+                pawn.SetWorkerRole(workerRole);
+            }
         }
 
         /// <summary>
