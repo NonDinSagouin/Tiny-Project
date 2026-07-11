@@ -14,6 +14,9 @@ namespace TinyProject.Entities
         chopper = 2,
         miner = 3,
         hunter = 4,
+        woodPorter = 5,
+        goldPorter = 6,
+        foodPorter = 7,
     }
 
     [RequireComponent(typeof(IAstarAI), typeof(Animator))]
