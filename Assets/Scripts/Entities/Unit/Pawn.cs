@@ -19,7 +19,7 @@ namespace TinyProject.Entities
         foodPorter = 7,
     }
 
-    [RequireComponent(typeof(IAstarAI), typeof(Animator))]
+    [RequireComponent(typeof(IAstarAI))]
     public class Pawn : Unit
     {
         [BoxGroup("Pawn")] [SerializeField] private WorkerRole workerRole = WorkerRole.none;

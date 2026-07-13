@@ -4,9 +4,20 @@ public abstract class State
 {
 	protected readonly MonoBehaviour Owner;
 
+	protected Animator Animator;
+
 	protected State(MonoBehaviour owner)
 	{
 		Owner = owner;
+	}
+
+	/// <summary>
+	/// Initialise l'état avec les composants nécessaires.
+	/// </summary>
+	/// <param name="animator">L'Animator du propriétaire de l'état.</param>
+	public virtual void Init(Animator animator)
+	{
+		Animator = animator;
 	}
 
 	/// <summary>
