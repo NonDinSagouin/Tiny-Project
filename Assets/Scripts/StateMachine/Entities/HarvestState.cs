@@ -3,13 +3,13 @@ using UnityEngine;
 namespace TinyProject.StateMachine.Entities
 {
     /// <summary>
-    /// État représentant l'état de marche d'un personnage ou d'un objet.
+    /// État représentant l'état de récolte d'un personnage ou d'un objet.
     /// </summary>
-    public class WalkingState : State
+    public class HarvestState : State
     {
-        private static readonly int AnimationHash = Animator.StringToHash("isWalking");
+        private static readonly int AnimationHash = Animator.StringToHash("isHarvesting");
 
-        public WalkingState(MonoBehaviour owner) : base(owner) { }
+        public HarvestState(MonoBehaviour owner) : base(owner) { }
 
         public override void Enter()
         {

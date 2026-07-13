@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using TinyProject.StateMachine;
-
 namespace TinyProject.StateMachine.Entities
 {
     /// <summary>

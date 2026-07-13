@@ -25,32 +25,29 @@ namespace TinyProject.Entities
     [RequireComponent(typeof(IAstarAI))]
     public class Pawn : Unit
     {
-        public WorkerRoleState WorkerRoleState { get; private set; }
-        public State EntityWorkerRoleState { get; private set; }
+        public HarvestState HarvestState { get; private set; }
 
         [BoxGroup("Pawn")] [SerializeField] private WorkerRole workerRole = WorkerRole.none;
-
         public WorkerRole WorkerRole => workerRole;
 
         protected override void Start()
         {
             base.Start();
 
-            WorkerRoleState = new WorkerRoleState(this);
-            WorkerRoleState.Init(animator);
-
-            WorkerRoleState.Enter((int)workerRole);
+            HarvestState = new HarvestState(this);
+            HarvestState.Init(animator);
         }
         
         protected override void Update()
         {
             base.Update();
-            EntityWorkerRoleState?.Tick();
-        }
 
-        protected override void FixedUpdate()
-        {
-            EntityWorkerRoleState?.FixedTick();
+            animator.SetInteger("WorkerRole", (int)workerRole);
+
+            if (WorkerRole != WorkerRole.none)
+            {
+                ChangeEntityState(HarvestState);
+            }
         }
         
         /// <summary>
@@ -60,20 +57,6 @@ namespace TinyProject.Entities
         public void SetWorkerRole(WorkerRole newRole)
         {
             workerRole = newRole;
-            WorkerRoleState.Enter((int)newRole);
-        }
-
-        /// <summary>
-        /// Change l'état actuel du rôle du travailleur vers un nouvel état spécifié.
-        /// </summary>
-        /// <param name="newState">Le nouvel état vers lequel changer.</param>
-        protected void ChangeWorkerRoleState(State newState)
-        {
-            if (EntityWorkerRoleState == newState) return;
-
-            EntityWorkerRoleState?.Exit();
-            EntityWorkerRoleState = newState;
-            EntityWorkerRoleState?.Enter();
         }
     }
 }
