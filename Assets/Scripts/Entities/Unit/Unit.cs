@@ -2,6 +2,8 @@ using UnityEngine;
 using Pathfinding;
 using NaughtyAttributes;
 
+using TinyProject.StateMachine.Entities;
+
 namespace TinyProject.Entities
 {
     [RequireComponent(typeof(AIPath))]
@@ -12,8 +14,9 @@ namespace TinyProject.Entities
 
         [BoxGroup("Components")] protected IAstarAI ai;
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
+        
         // Seuil de vitesse pour déterminer si l'unité est en mouvement
-        [BoxGroup("Parameters")][SerializeField] private const float VelocityThreshold = 0.1f;
+        private const float VelocityThreshold = 0.1f;
 
         protected override void Start()
         {
@@ -26,7 +29,7 @@ namespace TinyProject.Entities
             IdleState.Init(animator);
             WalkingState.Init(animator);
 
-            ChangeState(IdleState);
+            ChangeEntityState(IdleState);
         }
 
         protected override void Update()
@@ -35,11 +38,11 @@ namespace TinyProject.Entities
             
             if (ai.velocity.magnitude > VelocityThreshold)
             {
-                ChangeState(WalkingState);
+                ChangeEntityState(WalkingState);
             }
             else
             {
-                ChangeState(IdleState);
+                ChangeEntityState(IdleState);
             }
 
             Flip(ai, transform, ref isFlipped);

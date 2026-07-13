@@ -4,12 +4,13 @@ using Pathfinding;
 using NaughtyAttributes;
 
 using TinyProject.Selection;
+using TinyProject.StateMachine;
 
 namespace TinyProject.Entities
 {
     public class Entity : MonoBehaviour
     {
-        State State { get; set; }
+        protected State EntityState { get; private set; }
 
         [BoxGroup("Components")] [SerializeField] protected Animator animator;
         [BoxGroup("Components")] [SerializeField] protected GameObject selectionVisual;
@@ -51,12 +52,12 @@ namespace TinyProject.Entities
 
         protected virtual void Update()
         {
-            State?.Tick();
+            EntityState?.Tick();
         }
 
         protected virtual void FixedUpdate()
         {
-            State?.FixedTick();
+            EntityState?.FixedTick();
         }
 
         protected virtual void OnDestroy()
@@ -71,13 +72,13 @@ namespace TinyProject.Entities
         /// Change l'état actuel de l'entité vers un nouvel état spécifié.
         /// </summary>
         /// <param name="newState">Le nouvel état vers lequel changer.</param>
-        protected void ChangeState(State newState)
+        protected void ChangeEntityState(State newState)
         {
-            if (State == newState) return;
+            if (EntityState == newState) return;
 
-            State?.Exit();
-            State = newState;
-            State?.Enter();
+            EntityState?.Exit();
+            EntityState = newState;
+            EntityState?.Enter();
         }
     }
 }

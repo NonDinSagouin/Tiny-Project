@@ -2,7 +2,6 @@ using UnityEngine;
 using NaughtyAttributes;
 
 using TinyProject.Entities;
-using TinyProject.Resources;
 
 namespace TinyProject.Resources
 {
