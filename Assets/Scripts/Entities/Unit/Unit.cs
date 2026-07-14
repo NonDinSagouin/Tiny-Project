@@ -15,6 +15,10 @@ namespace TinyProject.Entities
         [BoxGroup("Components")] protected IAstarAI ai;
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
         
+        [BoxGroup("Target")] [SerializeField] protected GameObject TargetGameObject;
+        [BoxGroup("Target")] [SerializeField] protected float InteractionRadius = 0.8f;
+        [BoxGroup("Target")] [SerializeField] protected bool isNearTarget = false;
+        
         // Seuil de vitesse pour déterminer si l'unité est en mouvement
         private const float VelocityThreshold = 0.1f;
 
@@ -35,6 +39,7 @@ namespace TinyProject.Entities
         protected override void Update()
         {
             base.Update();
+            isNearTarget = PerformNearTargetCheck();
             
             if (ai.velocity.magnitude > VelocityThreshold)
             {
@@ -65,6 +70,16 @@ namespace TinyProject.Entities
         }
 
         /// <summary>
+        /// Définit l'objet cible pour l'unité. Cela peut être utilisé pour interagir avec des ressources, des bâtiments ou d'autres entités dans le jeu.
+        /// </summary>
+        /// <param name="target">L'objet cible à définir pour l'unité.</param>
+        public void SetTargetGameObject(GameObject target)
+        {
+            TargetGameObject = target;
+            isNearTarget = false;
+        }
+
+        /// <summary>
         /// Déplace l'unité vers la position spécifiée.
         /// </summary>
         /// <param name="position">La position vers laquelle déplacer l'unité.</param>
@@ -72,6 +87,20 @@ namespace TinyProject.Entities
         {
             ai.destination = position;
             ai.SearchPath();
+        }
+
+        private bool PerformNearTargetCheck()
+        {
+            if (TargetGameObject == null) return false;
+
+            float distanceToTarget = Vector3.Distance(transform.position, TargetGameObject.transform.position);
+            return distanceToTarget <= InteractionRadius;
+        }
+
+        protected override void OnDrawGizmos()
+        {
+            Gizmos.color = PerformNearTargetCheck() ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(transform.position, InteractionRadius);
         }
     }
 }

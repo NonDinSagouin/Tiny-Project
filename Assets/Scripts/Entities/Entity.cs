@@ -67,7 +67,9 @@ namespace TinyProject.Entities
                 EntitySelectionSingleton.Instance.DeregisterEntity(this);
             }
         }
-    
+
+        protected virtual void OnDrawGizmos() {}
+
         /// <summary>
         /// Change l'état actuel de l'entité vers un nouvel état spécifié.
         /// </summary>

@@ -198,7 +198,8 @@ namespace TinyProject.Selection
         }
 
         /// <summary>
-        /// [Event] Gère la sélection d'entité par glisser-déposer en fonction de l'entrée utilisateur.
+        /// [Event] Gère le mouvement des entités sélectionnées en fonction de l'entrée utilisateur.
+        /// Cela permet de déplacer les entités sélectionnées vers la position de la souris.
         /// </summary>
         /// <param name="context">Le contexte de l'action d'entrée utilisateur.</param>
         public void HandleInputAction(CallbackContext context)
@@ -211,12 +212,14 @@ namespace TinyProject.Selection
             {
                 if (clickedEntity.TryGetComponent(out Resource resource))
                 {
-                    Debug.Log($"[Selection] Clicked resource: {resource}", clickedEntity);
-                    Debug.Log($"[Selection] Resource Type: {resource.ResourceType}, Total Amount: {resource.ResourceAmount}, Current Amount: {resource.CurrentResourceAmount}", clickedEntity);
                     WorkerRoleSelection(resource.WorkerRole);
+                    SetTargetGameObject(resource.gameObject);
                 }
-
-                Debug.Log($"[Selection] Clicked on another entity: {clickedEntity.name}", clickedEntity);
+            }
+            else
+            {
+                WorkerRoleSelection(WorkerRole.none);
+                SetTargetGameObject(null);
             }
 
             Movement();
@@ -278,6 +281,22 @@ namespace TinyProject.Selection
                 case FormationType.Circle:
                     entityFormation.CircleFormation(mouseWorldPosition, units);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Définit l'objet cible pour toutes les unités actuellement sélectionnées.
+        /// Cela peut être utilisé pour interagir avec des ressources, des bâtiments ou d'autres entités dans le jeu.
+        /// </summary>
+        /// <param name="target">L'objet cible à définir pour les unités sélectionnées.</param>
+        public void SetTargetGameObject(GameObject target)
+        {
+            foreach (Entity entity in entitiesSelected)
+            {
+                if (entity is Unit unit)
+                {
+                    unit.SetTargetGameObject(target);
+                }
             }
         }
     }

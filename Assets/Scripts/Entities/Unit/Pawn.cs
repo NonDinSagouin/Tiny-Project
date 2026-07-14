@@ -44,7 +44,7 @@ namespace TinyProject.Entities
 
             animator.SetInteger("WorkerRole", (int)workerRole);
 
-            if (WorkerRole != WorkerRole.none)
+            if (isNearTarget && workerRole != WorkerRole.none)
             {
                 ChangeEntityState(HarvestState);
             }
