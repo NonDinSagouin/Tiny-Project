@@ -15,6 +15,7 @@ namespace TinyProject.StateMachine.Entities
         {
             base.Enter();
             Animator.SetBool(AnimationHash, true);
+            Animator.Play("Interact", -1, 0f);
         }
 
         public override void Tick()

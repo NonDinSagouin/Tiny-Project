@@ -26,8 +26,10 @@ namespace TinyProject.Entities
     public class Pawn : Unit
     {
         public HarvestState HarvestState { get; private set; }
+        public State EntityWorkerRoleState { get; private set; }
 
         [BoxGroup("Pawn")] [SerializeField] private WorkerRole workerRole = WorkerRole.none;
+
         public WorkerRole WorkerRole => workerRole;
 
         protected override void Start()
@@ -41,13 +43,6 @@ namespace TinyProject.Entities
         protected override void Update()
         {
             base.Update();
-
-            animator.SetInteger("WorkerRole", (int)workerRole);
-
-            if (isNearTarget && workerRole != WorkerRole.none)
-            {
-                ChangeEntityState(HarvestState);
-            }
         }
         
         /// <summary>
@@ -57,6 +52,7 @@ namespace TinyProject.Entities
         public void SetWorkerRole(WorkerRole newRole)
         {
             workerRole = newRole;
+            animator.SetInteger("WorkerRole", (int)workerRole);
         }
     }
 }

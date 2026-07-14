@@ -14,10 +14,7 @@ namespace TinyProject.Entities
 
         [BoxGroup("Components")] protected IAstarAI ai;
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
-        
-        [BoxGroup("Target")] [SerializeField] protected GameObject TargetGameObject;
-        [BoxGroup("Target")] [SerializeField] protected float InteractionRadius = 0.8f;
-        [BoxGroup("Target")] [SerializeField] protected bool isNearTarget = false;
+        [BoxGroup("Target")] [SerializeField] private GameObject TargetGameObject;
         
         // Seuil de vitesse pour déterminer si l'unité est en mouvement
         private const float VelocityThreshold = 0.1f;
@@ -39,7 +36,6 @@ namespace TinyProject.Entities
         protected override void Update()
         {
             base.Update();
-            isNearTarget = PerformNearTargetCheck();
             
             if (ai.velocity.magnitude > VelocityThreshold)
             {
@@ -76,7 +72,6 @@ namespace TinyProject.Entities
         public void SetTargetGameObject(GameObject target)
         {
             TargetGameObject = target;
-            isNearTarget = false;
         }
 
         /// <summary>
@@ -87,20 +82,6 @@ namespace TinyProject.Entities
         {
             ai.destination = position;
             ai.SearchPath();
-        }
-
-        private bool PerformNearTargetCheck()
-        {
-            if (TargetGameObject == null) return false;
-
-            float distanceToTarget = Vector3.Distance(transform.position, TargetGameObject.transform.position);
-            return distanceToTarget <= InteractionRadius;
-        }
-
-        protected override void OnDrawGizmos()
-        {
-            Gizmos.color = PerformNearTargetCheck() ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(transform.position, InteractionRadius);
         }
     }
 }
