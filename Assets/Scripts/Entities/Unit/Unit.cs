@@ -14,7 +14,9 @@ namespace TinyProject.Entities
 
         [BoxGroup("Components")] protected IAstarAI ai;
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
-        [BoxGroup("Target")] [SerializeField] private GameObject TargetGameObject;
+        [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isInAction = false;
+        [BoxGroup("Target")] [SerializeField] protected GameObject targetGameObject;
+        public GameObject TargetGameObject => targetGameObject;
         
         // Seuil de vitesse pour déterminer si l'unité est en mouvement
         private const float VelocityThreshold = 0.1f;
@@ -37,6 +39,11 @@ namespace TinyProject.Entities
         {
             base.Update();
             
+            if (isInAction)
+            {
+                return;
+            }
+
             if (ai.velocity.magnitude > VelocityThreshold)
             {
                 ChangeEntityState(WalkingState);
@@ -71,14 +78,14 @@ namespace TinyProject.Entities
         /// <param name="target">L'objet cible à définir pour l'unité.</param>
         public void SetTargetGameObject(GameObject target)
         {
-            TargetGameObject = target;
+            targetGameObject = target;
         }
 
         /// <summary>
         /// Déplace l'unité vers la position spécifiée.
         /// </summary>
         /// <param name="position">La position vers laquelle déplacer l'unité.</param>
-        public void MoveTo(Vector3 position)
+        public virtual void MoveTo(Vector3 position)
         {
             ai.destination = position;
             ai.SearchPath();

@@ -207,42 +207,28 @@ namespace TinyProject.Selection
             if (!context.performed){ return; }
             if (entitiesSelected.Count == 0){ return; }
 
+            Vector2 targetPosition = mouseWorldPosition;
+
             RaycastHit2D hit = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
             if (hit.collider != null && hit.collider.GetComponentInParent<Entity>() is Entity clickedEntity && !entitiesSelected.Contains(clickedEntity))
             {
-                if (clickedEntity.TryGetComponent(out Resource resource))
+                if (clickedEntity.TryGetComponent(out ResourceCollector resource))
                 {
-                    WorkerRoleSelection(resource.WorkerRole);
                     SetTargetGameObject(resource.gameObject);
+                    targetPosition = resource.ExtractionPoints.FirstOrDefault()?.position ?? targetPosition;
+                }
+                if (clickedEntity.TryGetComponent(out ResourceStorage storage))
+                {
+                    SetTargetGameObject(storage.gameObject);
+                    targetPosition = storage.StoragePoints.FirstOrDefault()?.position ?? targetPosition;
                 }
             }
             else
             {
-                WorkerRoleSelection(WorkerRole.none);
                 SetTargetGameObject(null);
             }
 
-            Movement();
-        }
-
-        /// <summary>
-        /// [Event] Gère la sélection du rôle des travailleurs en fonction de l'entrée utilisateur.
-        /// Cela permet de changer le rôle des travailleurs sélectionnés et de mettre à jour leur animation
-        /// </summary>
-        /// <param name="workerRole">Le nouveau rôle à attribuer aux travailleurs sélectionnés.</param>
-        public void WorkerRoleSelection(WorkerRole workerRole)
-        {
-            List<Pawn> units = entitiesSelected.OfType<Pawn>().ToList();
-
-            if (units.Count == 0)
-            {
-                return;
-            }
-
-            foreach (Pawn pawn in units)
-            {
-                pawn.SetWorkerRole(workerRole);
-            }
+            Movement(targetPosition);
         }
 
         /// <summary>
@@ -250,7 +236,7 @@ namespace TinyProject.Selection
         /// Uniquement pour les unités, les autres entités ne sont pas concernées par le mouvement.
         /// </summary>
         /// <param name="context"></param>
-        public void Movement()
+        public void Movement(Vector3 targetPosition)
         {
             List<Unit> units = entitiesSelected.OfType<Unit>().ToList();
 
@@ -261,25 +247,25 @@ namespace TinyProject.Selection
 
             if (units.Count == 1)
             {
-                entityFormation.NoFormation(mouseWorldPosition, units[0]);
+                entityFormation.NoFormation(targetPosition, units[0]);
                 return;
             }
 
             switch (currentFormationType)
             {
                 case FormationType.VerticalLine:
-                    entityFormation.LineFormation(mouseWorldPosition, units, false);
+                    entityFormation.LineFormation(targetPosition, units, false);
                     break;
                 case FormationType.HorizontalLine:
-                    entityFormation.LineFormation(mouseWorldPosition, units, true);
+                    entityFormation.LineFormation(targetPosition, units, true);
                     break;
 
                 case FormationType.Square:
-                    entityFormation.SquareFormation(mouseWorldPosition, units);
+                    entityFormation.SquareFormation(targetPosition, units);
                     break;
 
                 case FormationType.Circle:
-                    entityFormation.CircleFormation(mouseWorldPosition, units);
+                    entityFormation.CircleFormation(targetPosition, units);
                     break;
             }
         }

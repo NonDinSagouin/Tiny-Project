@@ -2,6 +2,7 @@ using UnityEngine;
 using NaughtyAttributes;
 
 using TinyProject.Entities;
+using System.Collections.Generic;
 
 namespace TinyProject.Resources
 {
@@ -10,22 +11,26 @@ namespace TinyProject.Resources
     /// </summary>
     public enum ResourceType
     {
+        None,
         Wood,
         Gold,
         Food
     }
 
-    public class Resource : MonoBehaviour
+    public class ResourceCollector : MonoBehaviour
     {
         [BoxGroup("Resource Info")] [SerializeField] private ResourceType resourceType;
         [BoxGroup("Resource Info")] [SerializeField] private WorkerRole workerRole;
         [BoxGroup("Resource Info")] [SerializeField] private int resourceAmount = 100;
         [BoxGroup("Resource Info")] [SerializeField] private int currentResourceAmount;
 
+        [BoxGroup("Resource Info")] [SerializeField] private List<Transform> extractionPoints;
+
         public ResourceType ResourceType => resourceType;
         public WorkerRole WorkerRole => workerRole;
         public int ResourceAmount => resourceAmount;
         public int CurrentResourceAmount => currentResourceAmount;
+        public List<Transform> ExtractionPoints => extractionPoints;
 
         void Start()
         {
