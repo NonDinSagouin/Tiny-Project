@@ -16,6 +16,7 @@ namespace TinyProject.Entities
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isFlipped = false;
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isInAction = false;
         [BoxGroup("Target")] [SerializeField] protected GameObject targetGameObject;
+        [BoxGroup("Target")] [SerializeField] protected float targetDistanceThreshold = 1f;
         public GameObject TargetGameObject => targetGameObject;
         
         // Seuil de vitesse pour déterminer si l'unité est en mouvement
@@ -79,6 +80,23 @@ namespace TinyProject.Entities
         public void SetTargetGameObject(GameObject target)
         {
             targetGameObject = target;
+        }
+
+        /// <summary>
+        /// Vérifie si l'unité est proche de sa cible actuelle.
+        /// </summary>
+        /// <param name="maxDistance">Distance maximale pour considérer la cible comme proche.</param>
+        /// <returns>True si une cible existe et qu'elle est à portée, sinon false.</returns>
+        public bool IsNearTargetGameObject()
+        {
+            if (targetGameObject == null)
+            {
+                return false;
+            }
+
+            float sqrDistance = (transform.position - targetGameObject.transform.position).sqrMagnitude;
+            float sqrMaxDistance = targetDistanceThreshold * targetDistanceThreshold;
+            return sqrDistance <= sqrMaxDistance;
         }
 
         /// <summary>

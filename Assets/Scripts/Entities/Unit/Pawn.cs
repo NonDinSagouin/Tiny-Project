@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using TinyProject.StateMachine.Entities;
 using TinyProject.Enums;
 using TinyProject.Resources;
+using TinyProject.Singleton;
 
 namespace TinyProject.Entities
 {
@@ -38,7 +39,7 @@ namespace TinyProject.Entities
         {
             base.Update();
 
-            if (ai.velocity.magnitude == 0f && workerRole is WorkerRole.builder or WorkerRole.chopper or WorkerRole.miner or WorkerRole.hunter)
+            if (IsNearResourceCollector() && ai.velocity.magnitude == 0f && workerRole is WorkerRole.builder or WorkerRole.chopper or WorkerRole.miner or WorkerRole.hunter)
             {
                 isInAction = true;
                 ChangeEntityState(HarvestState);
@@ -49,18 +50,40 @@ namespace TinyProject.Entities
                     nextExtractionTime = Time.time + extractionIntervalSeconds;
                 }
             }
+            else if (IsNearResourceStorage() && ai.velocity.magnitude > 0f && workerRole is WorkerRole.woodPorter or WorkerRole.goldPorter or WorkerRole.foodPorter)
+            {
+                DepositResources();
+                SetWorkerRole(WorkerRole.none);
+            }
             else
             {
                 isInAction = false;
                 nextExtractionTime = Time.time;
             }
         }
+
+        public override void MoveTo(Vector3 destination)
+        {
+            base.MoveTo(destination);
+
+            if (haveInventoryFull)
+            {
+                assignWorkerRoleBasedOnInventory();
+                return;
+            }
+
+            if (targetGameObject != null)
+            {
+                ResourceCollector resource = targetGameObject.GetComponent<ResourceCollector>();
+                SetWorkerRole(resource.WorkerRole);
+            }
+            else 
+            {
+                SetWorkerRole(WorkerRole.none);
+            }
+        }
         
-        /// <summary>
-        /// Définit le rôle du travailleur et met à jour l'animation en conséquence.
-        /// </summary>
-        /// <param name="newRole">Le nouveau rôle du travailleur.</param>
-        public void SetWorkerRole(WorkerRole newRole)
+        private void SetWorkerRole(WorkerRole newRole)
         {
             workerRole = newRole;
             animator.SetInteger("WorkerRole", (int)workerRole);
@@ -85,31 +108,20 @@ namespace TinyProject.Entities
             }
         }
 
-        public override void MoveTo(Vector3 destination)
+        private bool IsNearResourceCollector()
         {
-            base.MoveTo(destination);
-
-            if (haveInventoryFull)
-            {
-                assignWorkerRoleBasedOnInventory();
-                return;
-            }
-
-            if (targetGameObject != null)
-            {
-                ResourceCollector resource = targetGameObject.GetComponent<ResourceCollector>();
-                SetWorkerRole(resource.WorkerRole);
-            }
-            else 
-            {
-                SetWorkerRole(WorkerRole.none);
-            }
+            return targetGameObject != null
+                && targetGameObject.TryGetComponent<ResourceCollector>(out _)
+                && IsNearTargetGameObject();
         }
-    
-        /// <summary>
-        /// Extrait une quantité de ressource de la ressource cible et l'ajoute à
-        /// la charge actuelle du travailleur, si la charge maximale n'est pas atteinte.
-        /// </summary>
+
+        private bool IsNearResourceStorage()
+        {
+            return targetGameObject != null
+                && targetGameObject.TryGetComponent<ResourceStorage>(out _)
+                && IsNearTargetGameObject();
+        }
+
         private void ExtractResource()
         {
             if (targetGameObject == null)
@@ -140,6 +152,14 @@ namespace TinyProject.Entities
             }
             
             haveInventoryFull = currentInventory >= maxInventory;
+        }
+    
+        private void DepositResources()
+        {
+            PlayerRessourceSingleton.Instance.Deposit(currentInventory, inventoryType);
+            currentInventory = 0;
+            inventoryType = ResourceType.None;
+            haveInventoryFull = false;
         }
     }
 }

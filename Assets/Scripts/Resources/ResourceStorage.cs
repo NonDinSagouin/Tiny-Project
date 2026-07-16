@@ -22,28 +22,5 @@ namespace TinyProject.Resources
         void Start()
         {
         }
-
-        /// <summary>
-        /// Réduit la quantité de ressource actuelle de la ressource.
-        /// </summary>
-        /// <param name="amount">La quantité de ressource à retirer.</param>
-        public void Deposit(int amount, ResourceType resourceType)
-        {
-            switch (resourceType)
-            {
-                case ResourceType.Wood:
-                    wood += amount;
-                    break;
-                case ResourceType.Gold:
-                    gold += amount;
-                    break;
-                case ResourceType.Food:
-                    food += amount;
-                    break;
-                default:
-                    Debug.LogWarning($"Resource type {resourceType} is not recognized.");
-                    break;
-            }
-        }
     }
 }

@@ -7,7 +7,7 @@ namespace TinyProject.Singleton
 {
     public class PlayerRessourceSingleton : MonoBehaviour
     {
-        public static PlayerRessourceSingleton instance;
+        public static PlayerRessourceSingleton Instance { get; private set; }
 
         [BoxGroup("Resource Info")] [SerializeField] private int wood;
         [BoxGroup("Resource Info")] [SerializeField] private int gold;
@@ -19,12 +19,12 @@ namespace TinyProject.Singleton
 
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
             }
 
-            instance = this;
+            Instance = this;
         }
 
         public void Deposit(int amount, ResourceType resourceType)
