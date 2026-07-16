@@ -38,6 +38,15 @@ namespace TinyProject.Resources
         }
 
         /// <summary>
+        /// Vérifie si la ressource est épuisée (c'est-à-dire si la quantité actuelle de ressource est inférieure ou égale à zéro).
+        /// </summary>
+        /// <returns>True si la ressource est épuisée, sinon false.</returns>
+        public bool IsDepleted()
+        {
+            return currentResourceAmount <= 0;
+        }
+
+        /// <summary>
         /// Retourne une représentation sous forme de chaîne de caractères de l'objet Resource, incluant le type de ressource, la quantité totale et la quantité actuelle.
         /// </summary>
         /// <returns>Une chaîne de caractères représentant l'objet Resource.</returns>

@@ -23,6 +23,9 @@ namespace TinyProject.Entities
         [BoxGroup("Inventory")] [SerializeField] private int maxInventory = 10;
         [BoxGroup("Inventory")] [SerializeField] private int currentInventory = 0;
 
+        [BoxGroup("Boucle")] [SerializeField] private GameObject assignedResource;
+        [BoxGroup("Boucle")] [SerializeField] private WorkerRole assignedWorkerRole;
+
         private float nextExtractionTime;
 
         public WorkerRole WorkerRole => workerRole;
@@ -52,8 +55,18 @@ namespace TinyProject.Entities
             }
             else if (IsNearResourceStorage() && ai.velocity.magnitude > 0f && workerRole is WorkerRole.woodPorter or WorkerRole.goldPorter or WorkerRole.foodPorter)
             {
+                isInAction = false;
                 DepositResources();
-                SetWorkerRole(WorkerRole.none);
+                SetWorkerRole(assignedWorkerRole);
+                targetGameObject = assignedResource;
+                MoveToTargetGameObject();
+            }
+            else if (haveInventoryFull)
+            {
+                isInAction = false;
+                targetGameObject = GetNearestResourceStorageGameObject();
+                assignWorkerRoleBasedOnInventory();
+                MoveToTargetGameObject();
             }
             else
             {
@@ -122,19 +135,48 @@ namespace TinyProject.Entities
                 && IsNearTargetGameObject();
         }
 
-        private void ExtractResource()
+        private GameObject GetNearestResourceStorageGameObject()
         {
-            if (targetGameObject == null)
+            ResourceStorage[] storages = FindObjectsByType<ResourceStorage>();
+            if (storages == null || storages.Length == 0)
             {
-                return;
+                return null;
             }
 
+            ResourceStorage nearestStorage = null;
+            float minSqrDistance = float.MaxValue;
+
+            foreach (ResourceStorage storage in storages)
+            {
+                float sqrDistance = (storage.transform.position - transform.position).sqrMagnitude;
+                if (sqrDistance < minSqrDistance)
+                {
+                    minSqrDistance = sqrDistance;
+                    nearestStorage = storage;
+                }
+            }
+
+            return nearestStorage != null ? nearestStorage.gameObject : null;
+        }
+
+        private void ExtractResource()
+        {
             if (currentInventory >= maxInventory)
             {
                 haveInventoryFull = true;
+                targetGameObject = GetNearestResourceStorageGameObject();
                 assignWorkerRoleBasedOnInventory();
+                MoveToTargetGameObject();
                 return;
             }
+
+            if (targetGameObject == null)
+            {
+                return;
+            }   
+
+            assignedResource = targetGameObject;
+            assignedWorkerRole = workerRole;
 
             ResourceCollector resource = targetGameObject.GetComponent<ResourceCollector>();
             

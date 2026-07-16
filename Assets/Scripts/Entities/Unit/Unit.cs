@@ -1,8 +1,10 @@
+using System.Linq;
 using UnityEngine;
 using Pathfinding;
 using NaughtyAttributes;
 
 using TinyProject.StateMachine.Entities;
+using TinyProject.Resources;
 
 namespace TinyProject.Entities
 {
@@ -97,6 +99,33 @@ namespace TinyProject.Entities
             float sqrDistance = (transform.position - targetGameObject.transform.position).sqrMagnitude;
             float sqrMaxDistance = targetDistanceThreshold * targetDistanceThreshold;
             return sqrDistance <= sqrMaxDistance;
+        }
+
+        /// <summary>
+        /// Déplace l'unité vers la position de sa cible actuelle.
+        /// </summary>
+        /// <returns>True si une cible existe et que le déplacement est lancé, sinon false.</returns>
+        public void MoveToTargetGameObject()
+        {
+            if (targetGameObject == null)
+            {
+                return;
+            }
+
+            Vector2 targetPosition = targetGameObject.transform.position;
+
+            if (targetGameObject.TryGetComponent(out ResourceCollector resource))
+            {
+                SetTargetGameObject(resource.gameObject);
+                targetPosition = resource.ExtractionPoints.FirstOrDefault()?.position ?? targetPosition;
+            }
+            if (targetGameObject.TryGetComponent(out ResourceStorage storage))
+            {
+                SetTargetGameObject(storage.gameObject);
+                targetPosition = storage.StoragePoints.FirstOrDefault()?.position ?? targetPosition;
+            }
+
+            MoveTo(targetPosition);
         }
 
         /// <summary>

@@ -201,6 +201,7 @@ MonoBehaviour:
   selectionVisual: {fileID: 7899665701735626807}
   entityColliderSelection: {fileID: 1179344441596134960}
   isSelected: 0
+  resourceCollector: {fileID: 3638457353616137526}
 --- !u!1 &3353495297451993089
 GameObject:
   m_ObjectHideFlags: 0
