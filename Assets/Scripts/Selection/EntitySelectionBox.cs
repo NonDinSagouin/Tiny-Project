@@ -3,6 +3,7 @@ using UnityEngine;
 using NaughtyAttributes;
 
 using TinyProject.Entities;
+using TinyProject.Singleton;
 
 namespace TinyProject.Selection
 {

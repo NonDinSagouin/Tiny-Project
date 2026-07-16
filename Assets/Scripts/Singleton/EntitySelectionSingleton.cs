@@ -8,8 +8,9 @@ using static UnityEngine.InputSystem.InputAction;
 
 using TinyProject.Entities;
 using TinyProject.Resources;
+using TinyProject.Selection;
 
-namespace TinyProject.Selection
+namespace TinyProject.Singleton
 {
     public class EntitySelectionSingleton : MonoBehaviour
     {

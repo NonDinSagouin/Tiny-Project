@@ -1,32 +1,32 @@
-using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
 using TinyProject.Enums;
 
-namespace TinyProject.Resources
+namespace TinyProject.Singleton
 {
-    public class ResourceStorage : MonoBehaviour
+    public class PlayerRessourceSingleton : MonoBehaviour
     {
+        public static PlayerRessourceSingleton instance;
+
         [BoxGroup("Resource Info")] [SerializeField] private int wood;
         [BoxGroup("Resource Info")] [SerializeField] private int gold;
         [BoxGroup("Resource Info")] [SerializeField] private int food;
 
-        [BoxGroup("Resource Info")] [SerializeField] private List<Transform> storagePoints;
-
         public int Wood => wood;
         public int Gold => gold;
         public int Food => food;
-        public List<Transform> StoragePoints => storagePoints;
 
-        void Start()
+        private void Awake()
         {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+            }
+
+            instance = this;
         }
 
-        /// <summary>
-        /// Réduit la quantité de ressource actuelle de la ressource.
-        /// </summary>
-        /// <param name="amount">La quantité de ressource à retirer.</param>
         public void Deposit(int amount, ResourceType resourceType)
         {
             switch (resourceType)
@@ -34,12 +34,15 @@ namespace TinyProject.Resources
                 case ResourceType.Wood:
                     wood += amount;
                     break;
+
                 case ResourceType.Gold:
                     gold += amount;
                     break;
+
                 case ResourceType.Food:
                     food += amount;
                     break;
+
                 default:
                     Debug.LogWarning($"Resource type {resourceType} is not recognized.");
                     break;

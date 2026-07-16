@@ -3,7 +3,7 @@ using UnityEngine;
 using Pathfinding;
 using NaughtyAttributes;
 
-using TinyProject.Selection;
+using TinyProject.Singleton;
 using TinyProject.StateMachine;
 
 namespace TinyProject.Entities

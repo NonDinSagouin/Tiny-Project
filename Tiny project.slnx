@@ -1,15 +1,15 @@
 ﻿<Solution>
   <Project Path="AstarPathfindingProject.csproj" />
-  <Project Path="NaughtyAttributes.Editor.csproj" />
-  <Project Path="NaughtyAttributes.Core.csproj" />
   <Project Path="AstarPathfindingProjectEditor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Drawing.csproj" />
   <Project Path="VHierarchy.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="NaughtyAttributes.Core.csproj" />
   <Project Path="VFolders.csproj" />
   <Project Path="AstarPackageToolsEditor.csproj" />
-  <Project Path="NaughtyAttributes.Test.csproj" />
+  <Project Path="NaughtyAttributes.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="NaughtyAttributes.Test.csproj" />
   <Project Path="andywiecko.BurstTriangulator.csproj" />
   <Project Path="PackageTools.csproj" />
   <Project Path="DrawingEditor.csproj" />
