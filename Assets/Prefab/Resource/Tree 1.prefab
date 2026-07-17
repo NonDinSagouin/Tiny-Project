@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5183986ef7c1843a6ee225a3e02f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Resource.Resource
-  resourceType: 0
+  resourceType: 1
   workerRole: 2
   resourceAmount: 100
   currentResourceAmount: 100
