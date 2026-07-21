@@ -47,6 +47,12 @@ namespace TinyProject.Singleton
             foodTextMeshPro.text = food.ToString();
         }
 
+        [Button("Refresh Resources")]
+        public void RefreshResources()
+        {
+            RefreshUI();
+        }
+
         public void Deposit(int amount, ResourceType resourceType)
         {
             switch (resourceType)
@@ -61,6 +67,30 @@ namespace TinyProject.Singleton
 
                 case ResourceType.Food:
                     food += amount;
+                    break;
+
+                default:
+                    Debug.LogWarning($"Resource type {resourceType} is not recognized.");
+                    break;
+            }
+            
+            RefreshUI();
+        }
+
+        public void Spend(int amount, ResourceType resourceType)
+        {
+            switch (resourceType)
+            {
+                case ResourceType.Wood:
+                    wood -= amount;
+                    break;
+
+                case ResourceType.Gold:
+                    gold -= amount;
+                    break;
+
+                case ResourceType.Food:
+                    food -= amount;
                     break;
 
                 default:

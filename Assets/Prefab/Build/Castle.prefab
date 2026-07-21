@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 6861380765705683893}
   - component: {fileID: 9049868500129834612}
   - component: {fileID: 8323748028668982224}
+  - component: {fileID: 3751993531896742695}
   m_Layer: 7
   m_Name: Castle
   m_TagString: Untagged
@@ -329,6 +330,27 @@ MonoBehaviour:
   selectionVisual: {fileID: 6665909742723388504}
   entityColliderSelection: {fileID: 0}
   isSelected: 0
+  constructionTime: 0
+  woodCost: 0
+  goldCost: 0
+  foodCost: 0
+--- !u!114 &3751993531896742695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5624059925484683153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3990998926afa4ba6c2b4a9411e184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Resources.ResourceStorage
+  wood: 0
+  gold: 0
+  food: 0
+  storagePoints:
+  - {fileID: 6833928466677959016}
 --- !u!1 &6208910605763933447
 GameObject:
   m_ObjectHideFlags: 0
