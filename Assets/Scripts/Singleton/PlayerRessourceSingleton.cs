@@ -1,5 +1,6 @@
 using UnityEngine;
 using NaughtyAttributes;
+using TMPro;
 
 using TinyProject.Enums;
 
@@ -13,6 +14,10 @@ namespace TinyProject.Singleton
         [BoxGroup("Resource Info")] [SerializeField] private int gold;
         [BoxGroup("Resource Info")] [SerializeField] private int food;
 
+        [BoxGroup("UI")] [Required] [SerializeField] private TextMeshProUGUI woodTextMeshPro;
+        [BoxGroup("UI")] [Required] [SerializeField] private TextMeshProUGUI goldTextMeshPro;
+        [BoxGroup("UI")] [Required] [SerializeField] private TextMeshProUGUI foodTextMeshPro;
+
         public int Wood => wood;
         public int Gold => gold;
         public int Food => food;
@@ -22,9 +27,24 @@ namespace TinyProject.Singleton
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
 
             Instance = this;
+            RefreshUI();
+        }
+
+        private void RefreshUI()
+        {
+            if (woodTextMeshPro == null || goldTextMeshPro == null || foodTextMeshPro == null)
+            {
+                Debug.LogWarning("PlayerRessourceSingleton UI references are missing. Assign all TextMeshProUGUI fields in the inspector.", this);
+                return;
+            }
+
+            woodTextMeshPro.text = wood.ToString();
+            goldTextMeshPro.text = gold.ToString();
+            foodTextMeshPro.text = food.ToString();
         }
 
         public void Deposit(int amount, ResourceType resourceType)
@@ -47,6 +67,8 @@ namespace TinyProject.Singleton
                     Debug.LogWarning($"Resource type {resourceType} is not recognized.");
                     break;
             }
+            
+            RefreshUI();
         }
     }
 }
