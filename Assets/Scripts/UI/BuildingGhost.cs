@@ -15,6 +15,8 @@ namespace TinyProject.UI
         public Color blockedColor;
         public GameObject buildingPrefab;
 
+        public Transform notConstructedParent;
+
         public int woodCost;
         public int goldCost;
         public int foodCost;
@@ -54,7 +56,7 @@ namespace TinyProject.UI
                 && Mouse.current.leftButton.wasPressedThisFrame
                 && !EventSystem.current.IsPointerOverGameObject())
             {
-                GameObject placed = Instantiate(buildingPrefab, transform.position, transform.rotation);
+                GameObject placed = Instantiate(buildingPrefab, transform.position, transform.rotation, notConstructedParent);
 
                 if (woodCost > 0) PlayerRessourceSingleton.Instance.Spend(woodCost, ResourceType.Wood);
                 if (goldCost > 0) PlayerRessourceSingleton.Instance.Spend(goldCost, ResourceType.Gold);
@@ -65,11 +67,11 @@ namespace TinyProject.UI
                     placedBounds.Encapsulate(sr.bounds);
                 AstarPath.active.UpdateGraphs(placedBounds);
 
-                BuildSlots.ClearGhost();
+                BuildSlot.ClearGhost();
             }
             else if (Keyboard.current.escapeKey.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame)
             {
-                BuildSlots.ClearGhost();
+                BuildSlot.ClearGhost();
             }
         }
 
@@ -81,7 +83,7 @@ namespace TinyProject.UI
 
         private void OnDestroy()
         {
-            BuildSlots.ClearGhostReference();
+            BuildSlot.ClearGhostReference();
         }
     }
 }

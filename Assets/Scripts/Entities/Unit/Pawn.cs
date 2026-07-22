@@ -16,9 +16,11 @@ namespace TinyProject.Entities
         public HarvestState HarvestState { get; private set; }
 
         [BoxGroup("Pawn")] [SerializeField] private WorkerRole workerRole = WorkerRole.none;
+        [BoxGroup("Pawn")] [SerializeField, Min(0.1f)] private float tickInterval = 1f;
+        
+        [BoxGroup("Build")] [SerializeField] private int buildingForce = 1;
 
         [BoxGroup("Inventory")] [SerializeField] private int extractionAmount = 1;
-        [BoxGroup("Inventory")] [SerializeField, Min(0.1f)] private float extractionIntervalSeconds = 1f;
         [BoxGroup("Inventory")] [SerializeField] private ResourceType inventoryType = ResourceType.None;
         [BoxGroup("Inventory")] [SerializeField] private bool haveInventoryFull = false;
         [BoxGroup("Inventory")] [SerializeField] private int maxInventory = 10;
@@ -27,7 +29,7 @@ namespace TinyProject.Entities
         [BoxGroup("Boucle")] [SerializeField] private GameObject assignedResource;
         [BoxGroup("Boucle")] [SerializeField] private WorkerRole assignedWorkerRole;
 
-        private float nextExtractionTime;
+        private float nextTickTime;
 
         public WorkerRole WorkerRole => workerRole;
 
@@ -48,10 +50,9 @@ namespace TinyProject.Entities
                 isInAction = true;
                 ChangeEntityState(HarvestState);
 
-                if (Time.time >= nextExtractionTime)
+                if (TickTimer())
                 {
                     ExtractResource();
-                    nextExtractionTime = Time.time + extractionIntervalSeconds;
                 }
             }
             else if (IsNearResourceStorage() && ai.velocity.magnitude > 0f && workerRole is WorkerRole.woodPorter or WorkerRole.goldPorter or WorkerRole.foodPorter)
@@ -67,6 +68,12 @@ namespace TinyProject.Entities
                 isInAction = true;
                 ChangeEntityState(HarvestState);
                 SetWorkerRole(WorkerRole.builder);
+
+                if (TickTimer())
+                {
+                    Debug.Log($"Building {targetGameObject.name} with force {buildingForce}");
+                    targetGameObject.GetComponent<Building>().Construct(buildingForce);
+                }
             }
             else if (haveInventoryFull)
             {
@@ -78,8 +85,17 @@ namespace TinyProject.Entities
             else
             {
                 isInAction = false;
-                nextExtractionTime = Time.time;
             }
+        }
+
+        private bool TickTimer()
+        {
+            if (Time.time >= nextTickTime)
+            {
+                nextTickTime = Time.time + tickInterval;
+                return true;
+            }
+            return false;
         }
 
         public override void MoveTo(Vector3 destination)

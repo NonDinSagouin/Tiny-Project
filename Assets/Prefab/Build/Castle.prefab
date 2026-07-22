@@ -331,12 +331,17 @@ MonoBehaviour:
   selfCollider: {fileID: 9049868500129834612}
   entityColliderSelection: {fileID: 6572806279816379480}
   isSelected: 0
-  isConstructed: 0
+  isConstructed: 1
+  healthMax: 100
+  healthCurrent: 0
   constructionColor: {r: 1, g: 1, b: 1, a: 0.5}
-  constructionTime: 0
-  woodCost: 0
+  woodCost: 100
   goldCost: 0
   foodCost: 0
+  constructionTickScaleMultiplier: 1.05
+  constructionTickScaleDuration: 0.12
+  constructionPoints:
+  - {fileID: 6833928466677959016}
 --- !u!114 &3751993531896742695
 MonoBehaviour:
   m_ObjectHideFlags: 0

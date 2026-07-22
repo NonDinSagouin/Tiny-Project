@@ -9,7 +9,7 @@ using TinyProject.Entities.Buildings;
 namespace TinyProject.UI
 {
     [RequireComponent(typeof(Image))]
-    public class BuildSlots : MonoBehaviour,
+    public class BuildSlot : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         private PlayerRessourceSingleton playerRessourceSingleton;
@@ -21,10 +21,13 @@ namespace TinyProject.UI
 
         [BoxGroup("UI Settings")] [SerializeField] private GameObject buildingPrefab;
         [BoxGroup("UI Settings")] [SerializeField] private Image buildingImage;
+        
         [BoxGroup("Building Costs")] [SerializeField] private int woodCost;
         [BoxGroup("Building Costs")] [SerializeField] private int goldCost;
         [BoxGroup("Building Costs")] [SerializeField] private int foodCost;
 
+        [BoxGroup("Building Ghost Settings")] [SerializeField] private Transform constructionGhostParent;
+        [BoxGroup("Building Ghost Settings")] [SerializeField] private Transform notConstructedParent;
         [BoxGroup("Building Ghost Settings")] [SerializeField] private LayerMask blockedLayers;
         [BoxGroup("Building Ghost Settings")] [SerializeField] private Color validColor = new Color(1f, 1f, 1f, 0.5f);
         [BoxGroup("Building Ghost Settings")] [SerializeField] private Color blockedColor = new Color(1f, 0f, 0f, 0.5f);
@@ -91,13 +94,14 @@ namespace TinyProject.UI
 
             ClearGhost();
 
-            currentGhost = Instantiate(buildingPrefab);
+            currentGhost = Instantiate(buildingPrefab, constructionGhostParent.position, constructionGhostParent.rotation, constructionGhostParent);
             var buildingGhost = currentGhost.AddComponent<BuildingGhost>();
 
             buildingGhost.blockedLayers = blockedLayers;
             buildingGhost.validColor = validColor;
             buildingGhost.blockedColor = blockedColor;
             buildingGhost.buildingPrefab = buildingPrefab;
+            buildingGhost.notConstructedParent = notConstructedParent;
 
             buildingGhost.woodCost = woodCost;
             buildingGhost.goldCost = goldCost;

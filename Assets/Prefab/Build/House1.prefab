@@ -642,8 +642,9 @@ MonoBehaviour:
   entityColliderSelection: {fileID: 5455931375566000369}
   isSelected: 0
   isConstructed: 0
+  healthMax: 15
+  healthCurrent: 0
   constructionColor: {r: 1, g: 1, b: 1, a: 0.5}
-  constructionTime: 0
   woodCost: 100
   goldCost: 0
   foodCost: 0
