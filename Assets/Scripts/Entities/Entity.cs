@@ -14,6 +14,7 @@ namespace TinyProject.Entities
 
         [BoxGroup("Components")] [SerializeField] protected Animator animator;
         [BoxGroup("Components")] [SerializeField] protected GameObject selectionVisual;
+        [BoxGroup("Components")] [SerializeField] protected Collider2D selfCollider;
         [BoxGroup("Components")] [SerializeField] protected Collider2D entityColliderSelection;
 
         [BoxGroup("Etats")] [SerializeField, ReadOnly] protected bool isSelected;

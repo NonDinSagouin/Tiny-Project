@@ -328,8 +328,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Entities.Castle
   animator: {fileID: 0}
   selectionVisual: {fileID: 6665909742723388504}
-  entityColliderSelection: {fileID: 0}
+  selfCollider: {fileID: 9049868500129834612}
+  entityColliderSelection: {fileID: 6572806279816379480}
   isSelected: 0
+  isConstructed: 0
+  constructionColor: {r: 1, g: 1, b: 1, a: 0.5}
   constructionTime: 0
   woodCost: 0
   goldCost: 0

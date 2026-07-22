@@ -28631,8 +28631,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1091561152}
-  - {fileID: 1978872886}
-  - {fileID: 582476717}
   - {fileID: 354492584}
   - {fileID: 461292306}
   m_Father: {fileID: 0}
@@ -50042,12 +50040,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582476716}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.12729, y: -2.91844, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 455384134}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &582476719
 MonoBehaviour:
@@ -52070,6 +52068,9 @@ MonoBehaviour:
   disabledImageColor: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
   buildingPrefab: {fileID: 6474508309010055479, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
   buildingImage: {fileID: 944128857}
+  woodCost: 0
+  goldCost: 0
+  foodCost: 0
   blockedLayers:
     serializedVersion: 2
     m_Bits: 2248
@@ -64981,12 +64982,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978872885}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.12729, y: -2.91844, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 455384134}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1978872887
 MonoBehaviour:
@@ -65000,9 +65001,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c2dacb5bac8dc499d1cd08a2548ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TinyProject.Singleton.PlayerRessourceSingleton
-  wood: 100
-  gold: 20
-  food: 100
+  wood: 9999
+  gold: 9999
+  food: 9999
   woodTextMeshPro: {fileID: 687682875}
   goldTextMeshPro: {fileID: 1877888239}
   foodTextMeshPro: {fileID: 227670446}
@@ -65204,6 +65205,14 @@ PrefabInstance:
       propertyPath: woodCost
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 3467615434829282032, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
+      propertyPath: selfCollider
+      value: 
+      objectReference: {fileID: 399762516572116869}
+    - target: {fileID: 3467615434829282032, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
+      propertyPath: isConstructed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6474508309010055479, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
       propertyPath: m_Name
       value: House1
@@ -65216,6 +65225,11 @@ PrefabInstance:
 --- !u!4 &399762516572116867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 710269624712758475, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
+  m_PrefabInstance: {fileID: 399762516572116866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &399762516572116869 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3522240949132654729, guid: c580281dd74aa2c45bb2fdf6cdbfea9b, type: 3}
   m_PrefabInstance: {fileID: 399762516572116866}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2357327605280329060
@@ -65740,6 +65754,8 @@ SceneRoots:
   - {fileID: 977123148}
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 1978872886}
+  - {fileID: 582476717}
   - {fileID: 1612608707}
   - {fileID: 455384134}
   - {fileID: 578192141}

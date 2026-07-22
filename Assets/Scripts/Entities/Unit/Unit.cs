@@ -87,17 +87,18 @@ namespace TinyProject.Entities
         /// <summary>
         /// Vérifie si l'unité est proche de sa cible actuelle.
         /// </summary>
-        /// <param name="maxDistance">Distance maximale pour considérer la cible comme proche.</param>
+        /// <param name="maxDistance">Distance maximale pour considérer la cible comme proche. Si non définie, utilise targetDistanceThreshold.</param>
         /// <returns>True si une cible existe et qu'elle est à portée, sinon false.</returns>
-        public bool IsNearTargetGameObject()
+        public bool IsNearTargetGameObject(float? maxDistance = null)
         {
             if (targetGameObject == null)
             {
                 return false;
             }
 
+            float distanceThreshold = maxDistance ?? targetDistanceThreshold;
             float sqrDistance = (transform.position - targetGameObject.transform.position).sqrMagnitude;
-            float sqrMaxDistance = targetDistanceThreshold * targetDistanceThreshold;
+            float sqrMaxDistance = distanceThreshold * distanceThreshold;
             return sqrDistance <= sqrMaxDistance;
         }
 

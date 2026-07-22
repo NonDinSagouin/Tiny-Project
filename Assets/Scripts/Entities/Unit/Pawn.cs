@@ -6,6 +6,7 @@ using TinyProject.StateMachine.Entities;
 using TinyProject.Enums;
 using TinyProject.Resources;
 using TinyProject.Singleton;
+using TinyProject.Entities.Buildings;
 
 namespace TinyProject.Entities
 {
@@ -61,6 +62,12 @@ namespace TinyProject.Entities
                 targetGameObject = assignedResource;
                 MoveToTargetGameObject();
             }
+            else if (IsNearConstructionSite() && ai.velocity.magnitude == 0f && workerRole is WorkerRole.builder)
+            {
+                isInAction = true;
+                ChangeEntityState(HarvestState);
+                SetWorkerRole(WorkerRole.builder);
+            }
             else if (haveInventoryFull)
             {
                 isInAction = false;
@@ -85,10 +92,17 @@ namespace TinyProject.Entities
                 return;
             }
 
-            if (targetGameObject != null)
+            if (targetGameObject != null && targetGameObject.TryGetComponent(out ResourceCollector resource))
             {
-                ResourceCollector resource = targetGameObject.GetComponent<ResourceCollector>();
                 SetWorkerRole(resource.WorkerRole);
+            }
+            else if (targetGameObject != null && targetGameObject.TryGetComponent(out ResourceStorage storage))
+            {
+                SetWorkerRole(WorkerRole.none);
+            }
+            else if (targetGameObject != null && targetGameObject.TryGetComponent(out Building building) && !building.IsConstructed)
+            {
+                SetWorkerRole(WorkerRole.builder);
             }
             else 
             {
@@ -133,6 +147,14 @@ namespace TinyProject.Entities
             return targetGameObject != null
                 && targetGameObject.TryGetComponent<ResourceStorage>(out _)
                 && IsNearTargetGameObject();
+        }
+
+        private bool IsNearConstructionSite()
+        {
+            return targetGameObject != null
+                && targetGameObject.TryGetComponent(out Building building)
+                && !building.IsConstructed
+                && IsNearTargetGameObject(2f);
         }
 
         private GameObject GetNearestResourceStorageGameObject()

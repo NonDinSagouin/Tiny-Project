@@ -9,6 +9,7 @@ using static UnityEngine.InputSystem.InputAction;
 using TinyProject.Entities;
 using TinyProject.Resources;
 using TinyProject.Selection;
+using TinyProject.Entities.Buildings;
 
 namespace TinyProject.Singleton
 {
@@ -222,6 +223,14 @@ namespace TinyProject.Singleton
                 {
                     SetTargetGameObject(storage.gameObject);
                     targetPosition = storage.StoragePoints.FirstOrDefault()?.position ?? targetPosition;
+                }
+                if (clickedEntity.TryGetComponent(out Building building))
+                {
+                    if (!building.IsConstructed)
+                    {
+                        SetTargetGameObject(building.gameObject);
+                        targetPosition = building.ConstructionPoints.FirstOrDefault()?.position ?? targetPosition;
+                    }
                 }
             }
             else
